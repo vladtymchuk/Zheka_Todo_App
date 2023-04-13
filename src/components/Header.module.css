@@ -1,0 +1,38 @@
+.header{
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.title{
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 1rem;
+}
+
+.menuBtns{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.menuBtn{
+    background-color: #000;
+    color: #fff;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-decoration: none;
+    transition: all .7s;
+}
+
+.menuBtn:hover{
+    background-color: #fff;
+    color: #000;
+}

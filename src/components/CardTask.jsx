@@ -1,27 +1,41 @@
 import React from 'react'
+import { useTodoStore } from '../store/todoStore'
+import styles from './CardTask.module.css'
 
-export const CardTask = (props) => {
-    const {taskName, id, setTasks} = props
+export const CardTask = ({todo}) => {
+    const {title, id, done} = todo
+    const {addTodo, removeTodo, doneTodo} = useTodoStore()
 
-    const deleteHandler = () => {
-        setTasks((prevTasks) => {
-            return prevTasks.filter((task, index) => {
-                return index !== id
-            })
-        })
-        const tasksLS = JSON.parse(localStorage.getItem('tasks'))
-            .filter((task, index) => index !== id)
+    
+    const removeTodoHandler = () => {
+        removeTodo(id)
+    }
 
-        localStorage.setItem('tasks', JSON.stringify(tasksLS))
+    const doneTodoHandler = () => {
+        doneTodo(id)
     }
 
     return (
         <>
-            <li>
-                <div >
-                    <p>{taskName}</p>
+            <li className={styles.li}>
+                <div className={styles.bodyTask}>
+                    <div className={styles.inputBox}>
+                        <input
+                            className={styles.checkbox}
+                            type="checkbox" name="done" id="done"
+                            checked={done}
+                            onChange={doneTodoHandler}
+                        />
+                    </div>
+                    <div className={styles.taskDescription}>
+                        <p className={styles.title}>{title}</p>
+                    </div>
+                    <button 
+                        className={styles.deleteBtn}
+                        onClick={removeTodoHandler}>
+                            X
+                    </button>
                 </div>
-                <button onClick={deleteHandler}>X</button>
             </li>
         </>
     )

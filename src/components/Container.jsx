@@ -1,29 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { CardTask } from "./CardTask";
 import styles from './Container.module.css'
+import { useTodoStore } from "../store/todoStore"
 
 function Container() {
     const [taskName, setTaskName] = useState('')
     const [tasks, setTasks] = useState([])
+    const {todos, addTodo} = useTodoStore();
 
-    const clickHandler = () => {
-        if (taskName === '') {
-            alert('Please enter a task name')
-        } else {
-            setTasks([...tasks, taskName])
-            localStorage.setItem('tasks', JSON.stringify([...tasks, taskName]))
-            setTaskName('')
-        }
+    const addTodoHandler = () => {
+        addTodo({
+            id: Date.now(),
+            title: taskName,
+            done: false
+        })
     }
-
-    useEffect(() => {
-        const tasksLS = JSON.parse(localStorage.getItem('tasks'))
-        if (tasksLS) {
-            setTasks(tasksLS)
-        }
-    }, [])
-
-
 
     return (
         <div className={styles.container}>
@@ -31,24 +22,24 @@ function Container() {
                 <input 
                     type="text" 
                     className={styles.input}
+                    placeholder="Add a task"
                     value={taskName}
                     onChange={(event) => setTaskName(event.target.value)}
                 />
                 <button 
                     className={`${styles.btn} ${styles.btnAdd}`}
-                    onClick={clickHandler}    
+                    onClick={addTodoHandler}    
                 >+</button>
             </div>
-            <div>
-                <h2>Tasks</h2>
-                <ul>
-                    {tasks ? tasks.map((task, index) => {
+            <div className={styles.taskBox}>
+                <h2 className={styles.title}>Tasks</h2>
+                <ul className={styles.taskList}>
+                    {todos ? todos.map((todo) => {
                         return (
                             <CardTask 
-                                key={index} 
-                                taskName={task} 
-                                setTasks={setTasks}
-                                id={index}/>
+                                key={todo.id} 
+                                todo={todo}
+                                id={todo.id}/>
                         )
                     }) : null}
                 </ul>
